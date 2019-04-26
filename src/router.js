@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
 
 Vue.use(Router);
 
@@ -8,17 +7,29 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home
-    },
-    {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+        import(/* webpackChunkName: "layout" */ "./layout/BasicLayout.vue"),
+      children: [
+        {
+          path: "/",
+          redirect: "/activiti"
+        },
+        {
+          path: "/activiti",
+          component: () =>
+            import(/* webpackChunkName: "Activiti" */ "./views/Activiti.vue")
+        },
+        {
+          path: "/process",
+          component: () =>
+            import(/* webpackChunkName: "Process" */ "./views/Process.vue")
+        },
+        {
+          path: "/task",
+          component: () =>
+            import(/* webpackChunkName: "Task" */ "./views/Task.vue")
+        }
+      ]
     }
   ]
 });
